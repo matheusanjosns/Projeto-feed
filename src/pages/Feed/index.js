@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, FlatList,Button , View, ScrollView, TextInput} from 'react-native';
+import { StyleSheet, FlatList,Button , View, Image ,text,ScrollView, TextInput, TouchableOpacity} from 'react-native';
 import axios from 'axios'
 import LazyImage from '../../components/LazyImage';
-import { AsyncStorage } from 'react-native';
-
+import  {AsyncStorage} from 'react-native';
 
 import { Container, Post, Header, Avatar, Name, Description, Loading } from './styles';
+import comment from '../../instagram-icons/comment.png'; 
+import { TouchableNativeFeedback } from 'react-native-gesture-handler';
+
 
 export default function Feed() {
   const [error, setError] = useState('');
@@ -17,6 +19,8 @@ export default function Feed() {
   const [refreshing, setRefreshing] = useState(false);
   const [text, setText] = useState('')
   const [comentarios, setComentarios] = useState([])
+  const [likeado, setLikeado] = useState(false)
+  const [like, setLikes] = useState(likeado)
 
   const MAX_LENGTH = 250;
 
@@ -27,8 +31,9 @@ export default function Feed() {
     setLoading(true);
     //http://localhost:3000/feed?_expand=author&_limit=4&_page=1
     //utilizar server.js no jsonserver
-    //https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=1&limit=4
+    //https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4
     //utilizar o server2.js no www.mockapi.io
+    //https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4
     axios
     .get(`https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4`)
     .then(response => {
@@ -56,9 +61,7 @@ export default function Feed() {
 
   const onGet = (id) => {
     try {
-
       const value = AsyncStorage.getItem(id);
-
       if (value !== null) {
         // We have data!!
         setComentarios(value)
@@ -66,6 +69,25 @@ export default function Feed() {
     } catch (error) {
       // Error saving data
     }
+  }
+
+  const getLike = (likeado) => {
+    if(likeado > 0 ){
+      return require("../../instagram-icons/likeC.png")
+    }
+    return require("../../instagram-icons/like.png")
+  }
+
+  const curtitFoto = () => {
+    // console.warn(fotos)
+    let qnt = like
+    if (likeado) {
+      qnt--
+    } else {
+      qnt++
+    }
+    setLikes(qnt)
+    setLikeado(!likeado)
   }
 
   const onSave = async (id) => {
@@ -77,29 +99,41 @@ export default function Feed() {
     }
   }
 
-    
-
   useEffect(() => {
     loadPage()
   }, []);
 
- 
-
   const renderItem = ({item}) => {
     return (
-      <Post>
+      <View>
+        <Post>
+          
             <Header>
-              <Avatar source={{ uri: item.author.avatar }} />
-              <Name>{item.author.name}</Name>
+              <Avatar source={{ uri: item.author.avatar}} />
+              <Name>{item.author.name}</Name>              
             </Header>
-
+          
             <LazyImage
               aspectRatio={item.aspectRatio} 
               shouldLoad={viewable.includes(item.id)} 
               smallSource={{ uri: item.small }}
               source={{ uri: item.image }}
             />
-
+            
+            <View style={styles.Actions}>
+              <View style={styles.leftActions}>
+                <TouchableOpacity onPress={curtitFoto}>
+                  <Image source={getLike(likeado)}/>
+                </TouchableOpacity>
+              </View>
+              
+              <View style={styles.difeActions}>
+                  <TouchableNativeFeedback>
+                  <Image source={comment}/>
+                </TouchableNativeFeedback>
+              </View>             
+            </View>
+            
             <Description>
               <Name>{item.author.name}</Name> {item.description}
             </Description>
@@ -107,22 +141,22 @@ export default function Feed() {
               {comentarios}
             </Description>
            
-
-            <TextInput
+              <TextInput
               multiline={true}
               onChangeText={(text) => setText(text)}
               placeholder={"Comentários"}
               style={[styles.text]}
               maxLength={MAX_LENGTH}
               value={text}/>
-
-            <Button
+            
+              <Button
               title="Salvar"
               onPress={() => onSave(String(item.id))}
               accessibilityLabel="Salvar">
             </Button>
 
-      </Post>
+        </Post>
+      </View>
     )
   }
   
@@ -152,14 +186,25 @@ export default function Feed() {
   );
 }
 
-const styles = StyleSheet.create(
-  {text: {
-    fontSize: 30,
-    lineHeight: 33,
-    color: "#333333",
-    padding: 16,
-    paddingTop: 16,
-    minHeight: 170,
-    borderTopWidth: 1,
-    borderColor: "rgba(212,211,211, 0.3)"
-}})
+const styles = StyleSheet.create({
+    text: {
+     fontSize: 30,
+     lineHeight: 33,
+     color: "#333333",
+     padding: 16,
+     paddingTop: 16,
+     minHeight: 170,
+     borderTopWidth: 1,
+     borderColor: "rgba(212,211,211, 0.3)"
+    }, 
+    Actions:{
+      flexDirection:'row'
+    },
+    leftActions:{
+      left: 5, 
+    },
+    difeActions:{
+      left: 10,
+  }
+}
+)

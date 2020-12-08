@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Animated } from 'react-native';
 import { Small, Original } from './styles';
