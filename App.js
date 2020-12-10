@@ -8,10 +8,9 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 
 import Feed from './src/pages/Feed';
-import Search from './src/pages/Search';    
-import AddPost from './src/pages/AddPost';
-import Activity from './src/pages/Activity';
-import Login from './src/pages/Login';
+import SignUp from './src/SignUp';    
+import SignIn from './src/SignIn';
+import PreLoad from './src/PreLoad';
 
 const Stack = createStackNavigator(); 
 const Tab = createBottomTabNavigator();
@@ -43,9 +42,7 @@ function Tabs() {
 		activeTintColor: '#000000',
 		inactiveTintColor: '#777',
 	}}>
-		<Tab.Screen name="Login" component={Login}/>
-          <Tab.Screen name="Inicio" component={Feed}/>
-          
+    <Tab.Screen name="Inicio" component={Feed}/>
       </Tab.Navigator>
   );
 }
@@ -54,8 +51,11 @@ export default function App() {
   return (
     <View style={style.container}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Feed">
-        <Stack.Screen name="Instagram" component={Tabs} />
+        <Stack.Navigator initialRouteName="PreLoad">
+        <Stack.Screen name="Feed" component={Feed} />
+        <Stack.Screen name="PreLoad" component={PreLoad}/>
+        <Stack.Screen name="SignIn" component={SignIn}/>
+        <Stack.Screen name="SignUp" component={SignUp}/>
         </Stack.Navigator>
       </NavigationContainer>
     </View>

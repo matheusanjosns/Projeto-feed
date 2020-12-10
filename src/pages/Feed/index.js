@@ -5,9 +5,8 @@ import LazyImage from '../../components/LazyImage';
 import  {AsyncStorage} from 'react-native';
 
 import { Container, Post, Header, Avatar, Name, Description, Loading } from './styles';
-import comment from '../../instagram-icons/comment.png'; 
 import { TouchableNativeFeedback } from 'react-native-gesture-handler';
-
+import Like from '../../pages/Like';
 
 export default function Feed() {
   const [error, setError] = useState('');
@@ -19,8 +18,7 @@ export default function Feed() {
   const [refreshing, setRefreshing] = useState(false);
   const [text, setText] = useState('')
   const [comentarios, setComentarios] = useState([])
-  const [likeado, setLikeado] = useState(false)
-  const [like, setLikes] = useState(likeado)
+  
 
   const MAX_LENGTH = 250;
 
@@ -33,7 +31,6 @@ export default function Feed() {
     //utilizar server.js no jsonserver
     //https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4
     //utilizar o server2.js no www.mockapi.io
-    //https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4
     axios
     .get(`https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4`)
     .then(response => {
@@ -71,25 +68,6 @@ export default function Feed() {
     }
   }
 
-  const getLike = (likeado) => {
-    if(likeado > 0 ){
-      return require("../../instagram-icons/likeC.png")
-    }
-    return require("../../instagram-icons/like.png")
-  }
-
-  const curtitFoto = () => {
-    // console.warn(fotos)
-    let qnt = like
-    if (likeado) {
-      qnt--
-    } else {
-      qnt++
-    }
-    setLikes(qnt)
-    setLikeado(!likeado)
-  }
-
   const onSave = async (id) => {
     try {
       await AsyncStorage.setItem(id, text);
@@ -120,19 +98,9 @@ export default function Feed() {
               source={{ uri: item.image }}
             />
             
-            <View style={styles.Actions}>
-              <View style={styles.leftActions}>
-                <TouchableOpacity onPress={curtitFoto}>
-                  <Image source={getLike(likeado)}/>
-                </TouchableOpacity>
-              </View>
-              
-              <View style={styles.difeActions}>
-                  <TouchableNativeFeedback>
-                  <Image source={comment}/>
-                </TouchableNativeFeedback>
-              </View>             
-            </View>
+            <Like>
+
+            </Like>
             
             <Description>
               <Name>{item.author.name}</Name> {item.description}
@@ -140,7 +108,11 @@ export default function Feed() {
             <Description>
               {comentarios}
             </Description>
-           
+
+            <Like></Like>
+
+            <View>
+              
               <TextInput
               multiline={true}
               onChangeText={(text) => setText(text)}
@@ -148,7 +120,8 @@ export default function Feed() {
               style={[styles.text]}
               maxLength={MAX_LENGTH}
               value={text}/>
-            
+
+            </View>   
               <Button
               title="Salvar"
               onPress={() => onSave(String(item.id))}
