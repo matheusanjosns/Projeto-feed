@@ -27,16 +27,13 @@ export default function Feed() {
     if (loading) return;
 
     setLoading(true);
-    //http://localhost:3000/feed?_expand=author&_limit=4&_page=1
-    //utilizar server.js no jsonserver
-    //https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4
-    //utilizar o server2.js no www.mockapi.io
     axios
     .get(`https://5fa103ace21bab0016dfd97e.mockapi.io/api/v1/feed?page=${pageNumber}&limit=4`)
     .then(response => {
       const totalItems = response.headers["x-total-count"]
       const data = response.data
-      //console.log(data)
+    
+
       setLoading(false)
       setTotal(Math.floor(totalItems / 4));
       setPage(pageNumber + 1);
@@ -60,11 +57,12 @@ export default function Feed() {
     try {
       const value = AsyncStorage.getItem(id);
       if (value !== null) {
-        // We have data!!
+        
         setComentarios(value)
       } 
     } catch (error) {
-      // Error saving data
+      
+
     }
   }
 
@@ -73,7 +71,8 @@ export default function Feed() {
       await AsyncStorage.setItem(id, text);
       setComentarios([...comentarios, ...text])
     } catch (error) {
-      // Error saving data
+      
+
     }
   }
 
@@ -109,8 +108,6 @@ export default function Feed() {
               {comentarios}
             </Description>
 
-            <Like></Like>
-
             <View>
               
               <TextInput
@@ -123,9 +120,12 @@ export default function Feed() {
 
             </View>   
               <Button
-              title="Salvar"
+              title="Publicar"
               onPress={() => onSave(String(item.id))}
-              accessibilityLabel="Salvar">
+              accessibilityLabel="Publicar"              
+              >
+           
+
             </Button>
 
         </Post>

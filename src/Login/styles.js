@@ -3,7 +3,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.SafeAreaView`
     background-color: #FFF;
-    flex:1 ;
+    flex:2 ;
     justify-content: center;
     align-items: center;
 `;
@@ -15,7 +15,7 @@ export const InputArea = styled.View`
 
 export const CustomButton = styled.TouchableOpacity`
     height: 60px;
-    background-color: #088A85;
+    background-color: #E36BA5;
     border-radius:30px;
     justify-content: center;
     align-items: center;

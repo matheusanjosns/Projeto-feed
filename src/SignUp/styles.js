@@ -15,7 +15,7 @@ export const InputArea = styled.View`
 
 export const CustomButton = styled.TouchableOpacity`
     height: 60px;
-    background-color: #088A85;
+    background-color: #E36BA5;
     border-radius:30px;
     justify-content: center;
     align-items: center;

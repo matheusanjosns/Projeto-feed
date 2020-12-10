@@ -15,7 +15,7 @@ export default () =>{
             if(token){
                 //validar token
             }else {
-                navigation.navigate('SignIn');
+                navigation.navigate('Login');
             }
     }
     checkToken();
@@ -24,7 +24,9 @@ export default () =>{
 return (
         <Container>          
                 <Image 
-                 source={require('../../src/instagram-icons/Load.png')}/> 
+                 source={require('../../src/instagram-icons/Load.png')}
+                  style={{ width: 200 , height: 200 }}
+           /> 
                  <LoadingIcon size="large" color="#000" />
         </Container >
     )

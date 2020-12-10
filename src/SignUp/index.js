@@ -35,11 +35,13 @@ export default () => {
 
  }
     const handleMessageButtonClick = () => {
-        navigation.reset({routes: [{name:'SignIn'}]});
+        navigation.reset({routes: [{name:'Login'}]});
     }   
     return (
         <Container>
-            <Image source={require('../../src/instagram-icons/instaName.png')}/> 
+            <Image source={require('../../src/instagram-icons/instaName.png')}
+             style={{ width: 250 , height: 250 }}
+           /> 
 
             <InputArea>
             <SignInput 

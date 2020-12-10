@@ -37,7 +37,9 @@ export default () => {
     }
     return (
         <Container>
-            <Image source={require('../instagram-icons/instaName.png')}/> 
+            <Image source={require('../instagram-icons/instaName.png')}
+             style={{ width: 250 , height: 250 }}
+           /> 
             <InputArea>
                 <SignInput 
                 placeholder="Digite seu e-mail"

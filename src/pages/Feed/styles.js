@@ -36,3 +36,4 @@ export const Loading = styled.ActivityIndicator.attrs({
 })`
   margin: 30px 0;
 `;
+
