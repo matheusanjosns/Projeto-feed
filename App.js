@@ -29,10 +29,6 @@ function Tabs() {
 					iconName = 'instagram';
 					break;
 				
-				case 'Login':
-					iconName = 'user';
-					break;
-				
 			}
 
 			return <Icon name={iconName} size={size} color={color} />;
@@ -51,14 +47,8 @@ export default function App() {
   return (
     <View style={style.container}>
       <NavigationContainer>
-        <Stack.Navigator 
-        initialRouteName="PreLoad"
-
-        screenOptions={{
-    headerShown: false}}
-
-    >   
-        <Stack.Screen name="Feed" component={Feed} />
+        <Stack.Navigator initialRouteName="PreLoad" screenOptions={{headerShown: false}}>  
+        <Stack.Screen name="Feed" component={Tabs}/>
         <Stack.Screen name="PreLoad" component={PreLoad}/>
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={SignUp}/>

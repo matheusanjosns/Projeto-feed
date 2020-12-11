@@ -12,18 +12,17 @@ import {
 
 export default function components() {
 
-  const [likeado, setLikeado] = useState(false)
-  const [like, setLikes] = useState(likeado)
+const [like, setDeslike] = useState(false)
 
-const getLike = (likeado) => {
-  if(likeado > 0 ){
+const getLike = (like) => {
+  if(like > 0 ){
     return require("../../../src/instagram-icons/likeC.png")
   }
   return require("../../../src/instagram-icons/like.png")
 }
 
   const curtitFoto = () => {
-    setLikeado(!likeado)
+    setDeslike(!like)
   }
 
 
@@ -31,7 +30,7 @@ const getLike = (likeado) => {
     <View style={styles.container}> 
           <View style={styles.containerLike}>
             <TouchableOpacity onPress={curtitFoto}>
-                <Image source={getLike(likeado)} style={styles.like} />
+                <Image source={getLike(like)} style={styles.like} />
             </TouchableOpacity>
             
          </View>
